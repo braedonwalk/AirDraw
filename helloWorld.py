@@ -34,8 +34,8 @@ def main():
                 # print(fingerX, fingerY)
 
                 # send the gcode command using the function from the Client class
-                print("G0 X" + str(fingerX) + "Y" + str(fingerY))
-                ser.command("G0 X" + str(fingerX) + "Y" + str(fingerY))
+                print("G0 X" + str(fingerX) + " Y" + str(fingerY))
+                ser.command("G0 X" + str(fingerX) + " Y" + str(fingerY))
 
     # Closes all the frames
     cv2.destroyAllWindows()
