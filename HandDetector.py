@@ -10,20 +10,21 @@ import mediapipe as mp # contains gesture recognition ml model
 import pygame
 
 class HandDetector:
+    WIDTH = 640
+    HEIGHT = 480
 
-    def __init__(self, a_max_num_hands=1, a_min_detection_confidence=0.5) -> None:
-        """Constuctor
-
+    def __init__(self, camera=0, a_max_num_hands=1, a_min_detection_confidence=0.5) -> None:
+        """Constructor
         Args:
             a_max_num_hands (int, optional): Number of hands the detector will detect at once. Defaults to 1.
             a_min_detection_confidence (float, optional): min confidence that must be achieved for algorithm to claim it sees a hand. Defaults to 0.5.
         """
         # load the video from the webcam
-        self.capture = cv2.VideoCapture(0)
+        self.capture = cv2.VideoCapture(camera)
 
         #### setting parameters for the webcam capture
-        self.capture.set(3, 640) # the width of the window
-        self.capture.set(4, 480) # height of the window
+        self.capture.set(3, self.WIDTH) # the width of the window
+        self.capture.set(4, self.HEIGHT) # height of the window
 
         # getting hand identification models
         self.mpHands = mp.solutions.hands
@@ -50,6 +51,7 @@ class HandDetector:
         if self.capture.isOpened():
             # read the next frame of the video. "isLoaded" is a boolean representing whether the frame was loaded or not
             isLoaded, img = self.capture.read()
+            img = cv2.flip(img, 1)
 
             if isLoaded == True:
                 # the hand predictive model was trained on RGB images
@@ -62,7 +64,6 @@ class HandDetector:
                 # record and display the framerate of the video
                 timePassed = self.clock.tick()
                 fps = 1/(timePassed/1000)
-
 
                 # draw the framerate as text
                 cv2.putText(img, str(int(fps)), (10, 50), cv2.FONT_HERSHEY_PLAIN,2.0,(255,255,0))
@@ -87,7 +88,6 @@ class HandDetector:
                             handDictionary[landmarkId] = [xPos, yPos, zPos]
                         # update the dictionary storing all the hand's landmarks
                         self.landmarkDictionary[setId] = handDictionary
-
 
                         # draw landmarks on the hand
                         self.mpDraw.draw_landmarks(img, landmarkSet, self.mpHands.HAND_CONNECTIONS)
