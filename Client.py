@@ -48,7 +48,7 @@ class Client:
         '''
         try:
             cmd = cmd.upper()
-            subcmds = cmd.split(" ")
+            # subcmds = cmd.split(" ")
             # for subcmd in subcmds:
             #     if subcmd[0] == "X":
             #         self.value_X += float(subcmd[1:])
@@ -57,7 +57,7 @@ class Client:
             # print(f'Value of X: {self.value_X}, Y: {self.value_Y}')
             cmd = cmd + "\r\n"
             self.ser.write(str.encode(cmd))
-            time.sleep(1)
+            # time.sleep(1)
             self.get_feedback()
         except TypeError:
             print("Gcode commands must be a string")
