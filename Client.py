@@ -23,6 +23,7 @@ class Client:
         self.__initialise("M3 S150")
         self.__initialise("M5 G4 P0.5")
         self.__initialise("$H")
+        self.__initialise("F250")
 
         self.__initialise("G92 X0 Y0")
         # self.__initialise("G28 X0 Y0 Z0\r\n")
